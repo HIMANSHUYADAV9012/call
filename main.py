@@ -3,11 +3,26 @@ from fastapi import FastAPI
 from fastapi.responses import Response
 from twilio.rest import Client
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 
 # Load environment variables
 load_dotenv()
 
 app = FastAPI()
+
+
+
+
+# ✅ Allow all origins
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # * means everyone can call
+    allow_credentials=True,
+    allow_methods=["*"],  # GET, POST, etc.
+    allow_headers=["*"],  # Content-Type, Authorization, etc.
+)
+
+
 
 # -----------------------------
 # ENV VARIABLES
