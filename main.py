@@ -4,14 +4,14 @@ from fastapi.responses import Response
 from twilio.rest import Client
 from dotenv import load_dotenv
 
-# Load .env variables
+# Load environment variables
 load_dotenv()
 
-app = FastAPI(title="Shreya Message Voice Call System")
+app = FastAPI()
 
-# -------------------------
-# Environment Variables
-# -------------------------
+# -----------------------------
+# ENV VARIABLES
+# -----------------------------
 ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
 AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
 TWILIO_NUMBER = os.getenv("TWILIO_NUMBER")
@@ -20,36 +20,36 @@ PUBLIC_URL = os.getenv("PUBLIC_URL")
 
 client = Client(ACCOUNT_SID, AUTH_TOKEN)
 
-# -------------------------
-# Voice Endpoint
-# -------------------------
-@app.get("/voice")
-def voice():
+# -----------------------------
+# VOICE ENDPOINT
+# -----------------------------
+@app.api_route("/voice", methods=["GET", "POST"])
+async def voice():
 
     twiml = """
-    <Response>
-        <Say voice="alice">
+<Response>
+    <Say voice="alice">
         Hello Himanshu
-        </Say>
-        <Pause length="1"/>
-        <Say>
+    </Say>
+    <Pause length="1"/>
+    <Say>
         Shreya sent a new message
-        </Say>
-        <Pause length="1"/>
-        <Say>
+    </Say>
+    <Pause length="1"/>
+    <Say>
         Please check your website
-        </Say>
-    </Response>
-    """
+    </Say>
+</Response>
+"""
 
-    return Response(content=twiml, media_type="text/xml")
+    return Response(content=twiml, media_type="application/xml")
 
 
-# -------------------------
-# Test Call API
-# -------------------------
+# -----------------------------
+# TEST CALL ENDPOINT
+# -----------------------------
 @app.get("/test-call")
-def test_call():
+async def test_call():
 
     call = client.calls.create(
         to=MY_PHONE,
