@@ -1,1 +1,4 @@
-fastapi uvicorn twilio
+fastapi
+uvicorn
+twilio
+python-dotenv
